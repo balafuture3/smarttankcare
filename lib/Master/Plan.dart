@@ -19,6 +19,8 @@ class _PlanServiceState extends State<PlanService> {
 
   String dropdownValue1 = '-- Property Type --';
 
+  String dropdownValue2 = '-- Select Plan --';
+
   void initState() {
     super.initState();
 
@@ -688,6 +690,50 @@ class _PlanServiceState extends State<PlanService> {
               ),
             ),
             SizedBox(height: height/40,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                decoration: new BoxDecoration(
+                    borderRadius:BorderRadius.all(Radius.circular(2.0)),
+                    border: new Border.all(color: Colors.black38)
+                ),
+
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+
+                    value: dropdownValue2,
+                    onChanged: (String newValue) {
+                      setState(() {
+
+                        dropdownValue2 = newValue;
+                      });
+                    },
+                    items: <String>[
+                      '-- Select Plan --',
+                      "Below 1000L",
+                      "1000L to 2000L",
+                      "Above 1000L",
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                  child: FlatButton(onPressed: () {  },child: Text("Add Plan",style: TextStyle(color: Colors.white),),)),
+            ],),
+            SizedBox(height: height/40,),
+            SizedBox(height: height/80,),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
@@ -836,7 +882,8 @@ class _PlanServiceState extends State<PlanService> {
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(50))),
                     child: FlatButton(onPressed: () {  },child: Text("Cancel",style: TextStyle(color: Colors.white),),)),
-            ],)
+            ],),
+            SizedBox(height: height/80,),
           ],
         ),
       ),
