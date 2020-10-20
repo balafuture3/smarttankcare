@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class _PlanServiceState extends State<PlanService>
     return "Item - $index";
   });
   List<PlanListClass> listplan;
+  List<PlanServiceYearClass> listplanyear;
   List<PlanListClass> selectedAvengers;
   bool sort;
 
@@ -29,7 +31,8 @@ class _PlanServiceState extends State<PlanService>
   void initState() {
     sort = false;
     selectedAvengers = [];
-    listplan = PlanListClass.getAvengers();
+    listplan = PlanListClass.getdata();
+    listplanyear = PlanServiceYearClass.getdata();
     super.initState();
   }
 
@@ -281,436 +284,510 @@ class _PlanServiceState extends State<PlanService>
             SizedBox(
               height: height / 40,
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(0.0, 1.0), //(x,y)
-                    blurRadius: 0.2,
-                  ),
-                ],
-              ),
-              // decoration: new BoxDecoration(
-              //     borderRadius:BorderRadius.all(Radius.circular(2.0)),
-              //     border: new Border.all(color: Colors.red)
-              // ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Service Year",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+            DataTable(
+              sortAscending: sort,
+              sortColumnIndex: 0,
+              columnSpacing: 5,
+
+              columns: [
+
+                DataColumn(
+                  label: Center(child: Text("Service Year",softWrap: true, style: TextStyle(fontSize: 12))),
+                  numeric: false,
+
+                  // onSort: (columnIndex, ascending) {
+                  //   onSortColum(columnIndex, ascending);
+                  //   setState(() {
+                  //     sort = !sort;
+                  //   });
+                  // }
+                ),
+                DataColumn(
+
+                  label: Center(child: Text("Total Services",softWrap: true, style: TextStyle(fontSize: 12))),
+                  numeric: false,
+                ),
+                DataColumn(
+
+                  label: Expanded(child: Center(child: Text("List Price", overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12)))),
+                  numeric: false,
+                ),
+                DataColumn(
+
+                  label: Center(child: Text("Fixed Price",softWrap: true, style: TextStyle(fontSize: 12))),
+                  numeric: false,
+                ),
+                DataColumn(
+
+
+                  label: Center(child: Text("Actions",softWrap: true, style: TextStyle(fontSize: 12))),
+                  numeric: false,
+                ),
+              ],
+              rows: listplanyear
+                  .map(
+                    (list) => DataRow(
+                    selected: selectedAvengers.contains(list),
+                    cells: [
+
+                      DataCell(
+                        Center(child: Text(list.serviceyear,textAlign: TextAlign.center,)),
+                        onTap: () {
+                          print('Selected ${list.serviceyear}');
+                        },
+                      ),
+                      DataCell(
+                        Center(child: Text(list.totalservices,textAlign: TextAlign.center)),
+                      ),
+                      DataCell(
+                        Center(child: Text(list.literprice,textAlign: TextAlign.center)),
+                      ),
+                      DataCell(
+                        Center(child: Text(list.fixedprice,textAlign: TextAlign.center)),
+                      ),
+                      DataCell(
+                        Center(
+                          child: IconButton(icon:Icon(Icons.remove_circle_outline),onPressed: (){
+                            setState(() {
+                              listplanyear.remove(list);
+                            });
+                          }),
                         ),
                       ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10.0,
-                      ),
-                      child: new TextFormField(
-                        initialValue: "Total Services",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Liter Price",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Fixed Price",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: new TextFormField(
-                          initialValue: "Action",
-                          maxLines: 2,
-                          minLines: 2,
-                          textAlign: TextAlign.center,
-                          enabled: false,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ))
-                ],
-              ),
+                    ]),
+              )
+                  .toList(),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 2,
-                    child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.add_circle_outline),
-                          onPressed: () {},
-                        )),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "2020",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "1",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "0.3",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "299",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 2,
-                    child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () {},
-                        )),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "2020",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "1",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "0.3",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "299",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 2,
-                    child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () {},
-                        )),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(5.0),
+            //     color: Colors.white,
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.grey,
+            //         offset: Offset(0.0, 1.0), //(x,y)
+            //         blurRadius: 0.2,
+            //       ),
+            //     ],
+            //   ),
+            //   // decoration: new BoxDecoration(
+            //   //     borderRadius:BorderRadius.all(Radius.circular(2.0)),
+            //   //     border: new Border.all(color: Colors.red)
+            //   // ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(left: 10.0),
+            //           child: new TextFormField(
+            //             initialValue: "Service Year",
+            //             maxLines: 2,
+            //             minLines: 2,
+            //             textAlign: TextAlign.center,
+            //             enabled: false,
+            //             style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w800),
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(
+            //             left: 10.0,
+            //           ),
+            //           child: new TextFormField(
+            //             initialValue: "Total Services",
+            //             maxLines: 2,
+            //             minLines: 2,
+            //             textAlign: TextAlign.center,
+            //             enabled: false,
+            //             style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w800),
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(left: 10.0),
+            //           child: new TextFormField(
+            //             initialValue: "Liter Price",
+            //             maxLines: 2,
+            //             minLines: 2,
+            //             textAlign: TextAlign.center,
+            //             enabled: false,
+            //             style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w800),
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(left: 10.0),
+            //           child: new TextFormField(
+            //             initialValue: "Fixed Price",
+            //             maxLines: 2,
+            //             minLines: 2,
+            //             textAlign: TextAlign.center,
+            //             enabled: false,
+            //             style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w800),
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //           flex: 2,
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            //             child: new TextFormField(
+            //               initialValue: "Action",
+            //               maxLines: 2,
+            //               minLines: 2,
+            //               textAlign: TextAlign.center,
+            //               enabled: false,
+            //               style: TextStyle(
+            //                   fontSize: 12,
+            //                   color: Colors.black,
+            //                   fontWeight: FontWeight.w800),
+            //               decoration: InputDecoration(
+            //                 border: InputBorder.none,
+            //               ),
+            //             ),
+            //           ))
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 2,
+            //         child: Container(
+            //             height: height / 20,
+            //             child: IconButton(
+            //               icon: Icon(Icons.add_circle_outline),
+            //               onPressed: () {},
+            //             )),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "2020",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "1",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "0.3",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "299",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 2,
+            //         child: Container(
+            //             height: height / 20,
+            //             child: IconButton(
+            //               icon: Icon(Icons.remove_circle_outline),
+            //               onPressed: () {},
+            //             )),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "2020",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "1",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "0.3",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "299",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 2,
+            //         child: Container(
+            //             height: height / 20,
+            //             child: IconButton(
+            //               icon: Icon(Icons.remove_circle_outline),
+            //               onPressed: () {},
+            //             )),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
               height: height / 40,
             ),
@@ -792,148 +869,199 @@ class _PlanServiceState extends State<PlanService>
             SizedBox(
               height: height / 80,
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(0.0, 1.0), //(x,y)
-                    blurRadius: 0.2,
-                  ),
-                ],
-              ),
-              // decoration: new BoxDecoration(
-              //     borderRadius:BorderRadius.all(Radius.circular(2.0)),
-              //     border: new Border.all(color: Colors.red)
-              // ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Plan Name",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
+            DataTable(
+              sortAscending: sort,
+              sortColumnIndex: 0,
+              columns: [
+                DataColumn(
+                  label: Text("Plan Name", style: TextStyle(fontSize: 14)),
+                  numeric: false,
+
+                  // onSort: (columnIndex, ascending) {
+                  //   onSortColum(columnIndex, ascending);
+                  //   setState(() {
+                  //     sort = !sort;
+                  //   });
+                  // }
+                ),
+                DataColumn(
+
+                  label: Text("Total Services", style: TextStyle(fontSize: 14)),
+                  numeric: false,
+                ),
+                DataColumn(
+
+                  label: Text("Actions", style: TextStyle(fontSize: 14)),
+                  numeric: false,
+                ),
+              ],
+              rows: listplan
+                  .map(
+                    (list) => DataRow(
+                    selected: selectedAvengers.contains(list),
+                    cells: [
+                      DataCell(
+                        Text(list.name),
+                        onTap: () {
+                          print('Selected ${list.name}');
+                        },
                       ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Total Services",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
+                      DataCell(
+                        Text(list.totalservices),
                       ),
-                    ),
-                  ),
-                  new Flexible(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: new TextFormField(
-                          initialValue: "Action",
-                          maxLines: 2,
-                          minLines: 2,
-                          textAlign: TextAlign.center,
-                          enabled: false,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )),
-                ],
-              ),
+                      DataCell(
+                        IconButton(icon:Icon(Icons.remove_circle_outline),onPressed: (){
+                          setState(() {
+                            listplan.remove(list);
+                          });
+                        }),
+                      ),
+                    ]),
+              )
+                  .toList(),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "0.3",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: height / 20,
-                      padding: EdgeInsets.all(5),
-                      child: new TextFormField(
-                        initialValue: "299",
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16.0,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 2,
-                    child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () {},
-                        )),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(5.0),
+            //     color: Colors.white,
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.grey,
+            //         offset: Offset(0.0, 1.0), //(x,y)
+            //         blurRadius: 0.2,
+            //       ),
+            //     ],
+            //   ),
+            //   // decoration: new BoxDecoration(
+            //   //     borderRadius:BorderRadius.all(Radius.circular(2.0)),
+            //   //     border: new Border.all(color: Colors.red)
+            //   // ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(left: 10.0),
+            //           child: new TextFormField(
+            //             initialValue: "Plan Name",
+            //             maxLines: 2,
+            //             minLines: 2,
+            //             textAlign: TextAlign.center,
+            //             enabled: false,
+            //             style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w800),
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Padding(
+            //           padding: const EdgeInsets.only(left: 10.0),
+            //           child: new TextFormField(
+            //             initialValue: "Total Services",
+            //             maxLines: 2,
+            //             minLines: 2,
+            //             textAlign: TextAlign.center,
+            //             enabled: false,
+            //             style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.black,
+            //                 fontWeight: FontWeight.w800),
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //           flex: 2,
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            //             child: new TextFormField(
+            //               initialValue: "Action",
+            //               maxLines: 2,
+            //               minLines: 2,
+            //               textAlign: TextAlign.center,
+            //               enabled: false,
+            //               style: TextStyle(
+            //                   fontSize: 12,
+            //                   color: Colors.black,
+            //                   fontWeight: FontWeight.w800),
+            //               decoration: InputDecoration(
+            //                 border: InputBorder.none,
+            //               ),
+            //             ),
+            //           )),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "0.3",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 3,
+            //         child: Container(
+            //           height: height / 20,
+            //           padding: EdgeInsets.all(5),
+            //           child: new TextFormField(
+            //             initialValue: "299",
+            //             enabled: false,
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(fontSize: 12),
+            //             decoration: InputDecoration(
+            //               hintStyle: TextStyle(
+            //                 color: Colors.grey,
+            //                 fontSize: 16.0,
+            //               ),
+            //               border: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.circular(5.0),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       new Flexible(
+            //         flex: 2,
+            //         child: Container(
+            //             height: height / 20,
+            //             child: IconButton(
+            //               icon: Icon(Icons.remove_circle_outline),
+            //               onPressed: () {},
+            //             )),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
               height: height / 50,
             ),
@@ -999,57 +1127,57 @@ class _PlanServiceState extends State<PlanService>
             //     ]),
             //   ],
             // ),
-            DataTable(
-              sortAscending: sort,
-              sortColumnIndex: 0,
-              columns: [
-                DataColumn(
-                    label: Text("Plan Name", style: TextStyle(fontSize: 14)),
-                    numeric: false,
-
-                    // onSort: (columnIndex, ascending) {
-                    //   onSortColum(columnIndex, ascending);
-                    //   setState(() {
-                    //     sort = !sort;
-                    //   });
-                    // }
-                    ),
-                DataColumn(
-
-                  label: Text("Total Services", style: TextStyle(fontSize: 14)),
-                  numeric: false,
-                ),
-                DataColumn(
-
-                  label: Text("Actions", style: TextStyle(fontSize: 14)),
-                  numeric: false,
-                ),
-              ],
-              rows: listplan
-                  .map(
-                    (list) => DataRow(
-                        selected: selectedAvengers.contains(list),
-                        cells: [
-                          DataCell(
-                            Text(list.name),
-                            onTap: () {
-                              print('Selected ${list.name}');
-                            },
-                          ),
-                          DataCell(
-                            Text(list.totalservices),
-                          ),
-                          DataCell(
-                            IconButton(icon:Icon(Icons.remove_circle_outline),onPressed: (){
-                              setState(() {
-                                listplan.remove(list);
-                              });
-                            }),
-                          ),
-                        ]),
-                  )
-                  .toList(),
-            ),
+            // DataTable(
+            //   sortAscending: sort,
+            //   sortColumnIndex: 0,
+            //   columns: [
+            //     DataColumn(
+            //         label: Text("Plan Name", style: TextStyle(fontSize: 14)),
+            //         numeric: false,
+            //
+            //         // onSort: (columnIndex, ascending) {
+            //         //   onSortColum(columnIndex, ascending);
+            //         //   setState(() {
+            //         //     sort = !sort;
+            //         //   });
+            //         // }
+            //         ),
+            //     DataColumn(
+            //
+            //       label: Text("Total Services", style: TextStyle(fontSize: 14)),
+            //       numeric: false,
+            //     ),
+            //     DataColumn(
+            //
+            //       label: Text("Actions", style: TextStyle(fontSize: 14)),
+            //       numeric: false,
+            //     ),
+            //   ],
+            //   rows: listplan
+            //       .map(
+            //         (list) => DataRow(
+            //             selected: selectedAvengers.contains(list),
+            //             cells: [
+            //               DataCell(
+            //                 Text(list.name),
+            //                 onTap: () {
+            //                   print('Selected ${list.name}');
+            //                 },
+            //               ),
+            //               DataCell(
+            //                 Text(list.totalservices),
+            //               ),
+            //               DataCell(
+            //                 IconButton(icon:Icon(Icons.remove_circle_outline),onPressed: (){
+            //                   setState(() {
+            //                     listplan.remove(list);
+            //                   });
+            //                 }),
+            //               ),
+            //             ]),
+            //       )
+            //       .toList(),
+            // ),
 
             // ...listdetails(),
           ],
@@ -1109,12 +1237,30 @@ class PlanListClass {
 
   PlanListClass({this.name, this.totalservices});
 
-  static List<PlanListClass> getAvengers() {
+  static List<PlanListClass> getdata() {
     return <PlanListClass>[
       PlanListClass(name: "Below 1000L", totalservices: "1 "),
       PlanListClass(name: "1000L - 2000L", totalservices: "5"),
       PlanListClass(name: "Above 2000L", totalservices: "2"),
       PlanListClass(name: "2000L -  4000L ", totalservices: "6"),
+    ];
+  }
+}
+
+class PlanServiceYearClass {
+  String serviceyear;
+  String totalservices;
+  String literprice;
+  String fixedprice;
+
+  PlanServiceYearClass({this.serviceyear, this.totalservices,this.literprice,this.fixedprice});
+
+  static List<PlanServiceYearClass> getdata() {
+    return <PlanServiceYearClass>[
+      PlanServiceYearClass(serviceyear: "Below 1000L", totalservices: "1 ",literprice:"10",fixedprice:"299"),
+      PlanServiceYearClass(serviceyear: "1000L - 2000L", totalservices: "5",literprice:"10",fixedprice:"299"),
+      PlanServiceYearClass(serviceyear: "Above 2000L", totalservices: "2",literprice:"10",fixedprice:"299"),
+      PlanServiceYearClass(serviceyear: "2000L -  4000L ", totalservices: "6",literprice:"10",fixedprice:"299"),
     ];
   }
 }
