@@ -9,6 +9,7 @@ import 'package:smarttankcare/login.dart';
 
 import 'Machine List.dart';
 import 'Master/Plan.dart';
+import 'Master/PlanList.dart';
 import 'Service Detail.dart';
 import 'Services List.dart';
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
       ),
-      home: PlanService(),
+      home: PlanList(),
       debugShowCheckedModeBanner: false,
     );
   }

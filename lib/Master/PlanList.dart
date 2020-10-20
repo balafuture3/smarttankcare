@@ -4,19 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-class PlanService extends StatefulWidget {
+
+
+
+class PlanList extends StatefulWidget {
   @override
-  _PlanServiceState createState() => _PlanServiceState();
+  PlanListState createState() => PlanListState();
 }
 
-class _PlanServiceState extends State<PlanService>
-{
+class PlanListState extends State<PlanList> {
   List<String> items = List<String>.generate(7, (index) {
     return "Item - $index";
   });
-  List<PlanListClass> listplan;
-  List<PlanListClass> selectedAvengers;
-  bool sort;
 
   String dropdownValue = '-- Service Type --';
 
@@ -27,10 +26,8 @@ class _PlanServiceState extends State<PlanService>
   static List<String> friendsList = [null];
 
   void initState() {
-    sort = false;
-    selectedAvengers = [];
-    listplan = PlanListClass.getAvengers();
     super.initState();
+
   }
 
   String searchAddr;
@@ -45,6 +42,7 @@ class _PlanServiceState extends State<PlanService>
       //backgroundColor: Colors.redAccent[100],
       body: SingleChildScrollView(
         child: new Column(
+
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
@@ -64,17 +62,16 @@ class _PlanServiceState extends State<PlanService>
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: new Text(
-                    "New Plan",
+                    "Plan List",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.red),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: height / 40,
-            ),
+            SizedBox(height: height/40,),
             Container(
               padding: EdgeInsets.all(16),
               width: width,
@@ -95,17 +92,18 @@ class _PlanServiceState extends State<PlanService>
               child: new Text(
                 "Plan",
                 textAlign: TextAlign.left,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red),
+
               ),
             ),
 
-            SizedBox(
-              height: height / 50,
-            ),
+            SizedBox(height: height/50,),
             Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              padding: const EdgeInsets.only(left:10.0,right: 10.0),
               child: Container(
+
                 child: new TextField(
                   decoration: InputDecoration(
                     hintText: 'Plan Name: Tank-50000L',
@@ -120,21 +118,22 @@ class _PlanServiceState extends State<PlanService>
                 ),
               ),
             ),
-            SizedBox(
-              height: height / 80,
-            ),
+            SizedBox(height: height/80,),
             Container(
               margin: const EdgeInsets.only(left: 10.0, right: 10.0),
               padding: const EdgeInsets.only(left: 20.0, right: 10.0),
               decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                  border: new Border.all(color: Colors.black38)),
+                  borderRadius:BorderRadius.all(Radius.circular(2.0)),
+                  border: new Border.all(color: Colors.black38)
+              ),
+
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   isExpanded: true,
                   value: dropdownValue,
                   onChanged: (String newValue) {
                     setState(() {
+
                       dropdownValue = newValue;
                     });
                   },
@@ -151,32 +150,28 @@ class _PlanServiceState extends State<PlanService>
                 ),
               ),
             ),
-            SizedBox(
-              height: height / 80,
-            ),
+            SizedBox(height: height/80,),
             Container(
               margin: const EdgeInsets.only(left: 10.0, right: 10.0),
               padding: const EdgeInsets.only(left: 20.0, right: 10.0),
               decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                  border: new Border.all(color: Colors.black38)),
+                  borderRadius:BorderRadius.all(Radius.circular(2.0)),
+                  border: new Border.all(color: Colors.black38)
+              ),
+
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   isExpanded: true,
                   value: dropdownValue1,
                   onChanged: (String newValue) {
                     setState(() {
+
                       dropdownValue1 = newValue;
                     });
                   },
                   items: <String>[
                     '-- Property Type --',
-                    "Tank",
-                    "Sump",
-                    "Sump-Tile",
-                    "Car",
-                    "Bike",
-                    "Floor"
+                    "Tank", "Sump", "Sump-Tile", "Car", "Bike" ,"Floor"
                   ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -186,9 +181,7 @@ class _PlanServiceState extends State<PlanService>
                 ),
               ),
             ),
-            SizedBox(
-              height: height / 80,
-            ),
+            SizedBox(height: height/80,),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: new Column(
@@ -198,7 +191,8 @@ class _PlanServiceState extends State<PlanService>
                     "Size Range",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
                 ],
               ),
@@ -209,7 +203,7 @@ class _PlanServiceState extends State<PlanService>
                 new Flexible(
                   flex: 3,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    padding: const EdgeInsets.only(left:10.0,right: 10.0),
                     child: new TextField(
                       decoration: InputDecoration(
                         hintText: '1',
@@ -227,14 +221,15 @@ class _PlanServiceState extends State<PlanService>
                 new Flexible(
                   flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: new Text('-'),
+                    padding: const EdgeInsets.only(left:10.0,right: 10.0),
+                    child: new Text('-'
+                    ),
                   ),
                 ),
                 new Flexible(
-                  flex: 3,
+                  flex:3,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    padding: const EdgeInsets.only(left:10.0,right: 10.0),
                     child: new TextField(
                       decoration: InputDecoration(
                         hintText: '1000',
@@ -251,9 +246,7 @@ class _PlanServiceState extends State<PlanService>
                 ),
               ],
             ),
-            SizedBox(
-              height: height / 40,
-            ),
+            SizedBox(height: height/40,),
             Container(
               padding: EdgeInsets.all(16),
               width: width,
@@ -274,13 +267,13 @@ class _PlanServiceState extends State<PlanService>
               child: new Text(
                 "Pricing",
                 textAlign: TextAlign.left,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red),
+
               ),
             ),
-            SizedBox(
-              height: height / 40,
-            ),
+            SizedBox(height: height/40,),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
@@ -303,17 +296,27 @@ class _PlanServiceState extends State<PlanService>
                   new Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Service Year",
-                        maxLines: 2,
-                        minLines: 2,
+                      padding: const EdgeInsets.only(left:10.0),
+                      child: new TextFormField(initialValue: "Service Year",maxLines: 2,minLines: 2,
+                        textAlign: TextAlign.center,
+
+                        enabled: false,
+                        style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+
+                    ),
+                  ),
+                  new Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:10.0,),
+                      child: new TextFormField(initialValue: "Total Services",maxLines: 2,minLines: 2,
                         textAlign: TextAlign.center,
                         enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
+                        style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                         ),
@@ -323,19 +326,11 @@ class _PlanServiceState extends State<PlanService>
                   new Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10.0,
-                      ),
-                      child: new TextFormField(
-                        initialValue: "Total Services",
-                        maxLines: 2,
-                        minLines: 2,
+                      padding: const EdgeInsets.only(left:10.0),
+                      child: new TextFormField(initialValue: "Liter Price",maxLines: 2,minLines: 2,
                         textAlign: TextAlign.center,
                         enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
+                        style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                         ),
@@ -345,74 +340,47 @@ class _PlanServiceState extends State<PlanService>
                   new Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Liter Price",
-                        maxLines: 2,
-                        minLines: 2,
+                      padding: const EdgeInsets.only(left:10.0),
+
+                      child: new TextFormField(initialValue: "Fixed Price",maxLines: 2,minLines: 2,
                         textAlign: TextAlign.center,
                         enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
+                        style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                         ),
                       ),
-                    ),
-                  ),
-                  new Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Fixed Price",
-                        maxLines: 2,
-                        minLines: 2,
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
+
                     ),
                   ),
                   new Flexible(
                       flex: 2,
+
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: new TextFormField(
-                          initialValue: "Action",
-                          maxLines: 2,
-                          minLines: 2,
+                        padding: const EdgeInsets.only(left:10.0,right: 10.0),
+                        child: new TextFormField(initialValue: "Action",maxLines: 2,minLines: 2,
                           textAlign: TextAlign.center,
                           enabled: false,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800),
+                          style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                        ),
-                      ))
+                        ),))
+
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top:8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         textAlign: TextAlign.center,
@@ -431,8 +399,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         textAlign: TextAlign.center,
@@ -451,8 +420,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         textAlign: TextAlign.center,
@@ -471,8 +441,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         textAlign: TextAlign.center,
@@ -491,25 +462,28 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 2,
+
                     child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.add_circle_outline),
-                          onPressed: () {},
-                        )),
+                        height: height/20,
+                        child:IconButton(icon: Icon(Icons.add_circle_outline), onPressed: () {  },)
+
+                    ),
                   ),
+
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top:8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "2020",
@@ -530,8 +504,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "1",
@@ -552,8 +527,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "0.3",
@@ -574,8 +550,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "299",
@@ -596,25 +573,28 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 2,
+
                     child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () {},
-                        )),
+                        height: height/20,
+                        child:IconButton(icon: Icon(Icons.remove_circle_outline), onPressed: () {  },)
+
+                    ),
                   ),
+
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top:8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "2020",
@@ -635,8 +615,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "1",
@@ -657,8 +638,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "0.3",
@@ -679,8 +661,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "299",
@@ -701,19 +684,18 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 2,
+
                     child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () {},
-                        )),
+                        height: height/20,
+                        child:IconButton(icon: Icon(Icons.remove_circle_outline), onPressed: () {  },)
+
+                    ),
                   ),
+
                 ],
               ),
             ),
-            SizedBox(
-              height: height / 40,
-            ),
+            SizedBox(height: height/40,),
             Container(
               padding: EdgeInsets.all(16),
               width: width,
@@ -734,13 +716,13 @@ class _PlanServiceState extends State<PlanService>
               child: new Text(
                 "Plan Conditions",
                 textAlign: TextAlign.left,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red),
+
               ),
             ),
-            SizedBox(
-              height: height / 40,
-            ),
+            SizedBox(height: height/40,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -748,13 +730,17 @@ class _PlanServiceState extends State<PlanService>
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0),
                   padding: const EdgeInsets.only(left: 20.0, right: 10.0),
                   decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                      border: new Border.all(color: Colors.black38)),
+                      borderRadius:BorderRadius.all(Radius.circular(2.0)),
+                      border: new Border.all(color: Colors.black38)
+                  ),
+
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
+
                       value: dropdownValue2,
                       onChanged: (String newValue) {
                         setState(() {
+
                           dropdownValue2 = newValue;
                         });
                       },
@@ -777,21 +763,10 @@ class _PlanServiceState extends State<PlanService>
                     decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Add Plan",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: height / 40,
-            ),
-            SizedBox(
-              height: height / 80,
-            ),
+                    child: FlatButton(onPressed: () {  },child: Text("Add Plan",style: TextStyle(color: Colors.white),),)),
+              ],),
+            SizedBox(height: height/40,),
+            SizedBox(height: height/80,),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
@@ -814,17 +789,11 @@ class _PlanServiceState extends State<PlanService>
                   new Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Plan Name",
-                        maxLines: 2,
-                        minLines: 2,
+                      padding: const EdgeInsets.only(left:10.0),
+                      child: new TextFormField(initialValue: "Plan Name",maxLines: 2,minLines: 2,
                         textAlign: TextAlign.center,
                         enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
+                        style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                         ),
@@ -834,54 +803,48 @@ class _PlanServiceState extends State<PlanService>
                   new Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: new TextFormField(
-                        initialValue: "Total Services",
-                        maxLines: 2,
-                        minLines: 2,
+                      padding: const EdgeInsets.only(left:10.0),
+
+                      child: new TextFormField(initialValue: "Total Services",maxLines: 2,minLines: 2,
                         textAlign: TextAlign.center,
                         enabled: false,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
+                        style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                         ),
                       ),
+
                     ),
                   ),
                   new Flexible(
                       flex: 2,
+
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: new TextFormField(
-                          initialValue: "Action",
-                          maxLines: 2,
-                          minLines: 2,
+                        padding: const EdgeInsets.only(left:10.0,right: 10.0),
+                        child: new TextFormField(initialValue: "Action",maxLines: 2,minLines: 2,
                           textAlign: TextAlign.center,
                           enabled: false,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800),
+                          style: TextStyle(fontSize: 12,color:Colors.black,fontWeight: FontWeight.w800),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                        ),
-                      )),
+                        ),)),
+
+
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top:8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "0.3",
@@ -902,8 +865,9 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 3,
+
                     child: Container(
-                      height: height / 20,
+                      height: height/20,
                       padding: EdgeInsets.all(5),
                       child: new TextFormField(
                         initialValue: "299",
@@ -924,19 +888,18 @@ class _PlanServiceState extends State<PlanService>
                   ),
                   new Flexible(
                     flex: 2,
+
                     child: Container(
-                        height: height / 20,
-                        child: IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () {},
-                        )),
+                        height: height/20,
+                        child:IconButton(icon: Icon(Icons.remove_circle_outline), onPressed: () {  },)
+
+                    ),
                   ),
+
                 ],
               ),
             ),
-            SizedBox(
-              height: height / 50,
-            ),
+            SizedBox(height: height/50,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -945,118 +908,21 @@ class _PlanServiceState extends State<PlanService>
                     decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Save",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
+                    child: FlatButton(onPressed: () {  },child: Text("Save",style: TextStyle(color: Colors.white),),)),
                 Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: height / 80,
-            ),
-            // DataTable(
-            //   showBottomBorder: true,
-            //   showCheckboxColumn: true,
-            //   columns: [
-            //     DataColumn(label: Text("Name")),
-            //     DataColumn(label: Text("Year")),
-            //     DataColumn(label: Text("Plan")),
-            //     DataColumn(label: Text("Action")),
-            //   ],
-            //   rows: [
-            //     DataRow(cells: [
-            //       DataCell(Text("BalaKumar")),
-            //       DataCell(Text("2020")),
-            //       DataCell(Text("to get above 80k")),
-            //       DataCell(IconButton(
-            //         icon: Icon(Icons.add),
-            //         onPressed: () {},
-            //       ))
-            //     ]),
-            //     DataRow(cells: [
-            //       DataCell(Text("BalaKumar")),
-            //       DataCell(Text("2021")),
-            //       DataCell(Text("to get above 120k")),
-            //       DataCell(IconButton(
-            //         icon: Icon(Icons.add),
-            //         onPressed: () {},
-            //       ))
-            //     ]),
-            //   ],
-            // ),
-            DataTable(
-              sortAscending: sort,
-              sortColumnIndex: 0,
-              columns: [
-                DataColumn(
-                    label: Text("Plan Name", style: TextStyle(fontSize: 14)),
-                    numeric: false,
-
-                    // onSort: (columnIndex, ascending) {
-                    //   onSortColum(columnIndex, ascending);
-                    //   setState(() {
-                    //     sort = !sort;
-                    //   });
-                    // }
-                    ),
-                DataColumn(
-
-                  label: Text("Total Services", style: TextStyle(fontSize: 14)),
-                  numeric: false,
-                ),
-                DataColumn(
-
-                  label: Text("Actions", style: TextStyle(fontSize: 14)),
-                  numeric: false,
-                ),
-              ],
-              rows: listplan
-                  .map(
-                    (list) => DataRow(
-                        selected: selectedAvengers.contains(list),
-                        cells: [
-                          DataCell(
-                            Text(list.name),
-                            onTap: () {
-                              print('Selected ${list.name}');
-                            },
-                          ),
-                          DataCell(
-                            Text(list.totalservices),
-                          ),
-                          DataCell(
-                            IconButton(icon:Icon(Icons.remove_circle_outline),onPressed: (){
-                              setState(() {
-                                listplan.remove(list);
-                              });
-                            }),
-                          ),
-                        ]),
-                  )
-                  .toList(),
-            ),
-
+                    child: FlatButton(onPressed: () {  },child: Text("Cancel",style: TextStyle(color: Colors.white),),)),
+              ],),
+            SizedBox(height: height/80,),
             // ...listdetails(),
           ],
         ),
       ),
 
-      appBar: AppBar(
+      appBar:AppBar(
         title: Text('Smart Tank Care'),
         // actions: <Widget>[
         //   IconButton(
@@ -1091,30 +957,6 @@ class _PlanServiceState extends State<PlanService>
       ),
     );
   }
-  onSortColum(int columnIndex, bool ascending) {
-    if (columnIndex == 0) {
-      if (ascending) {
-        listplan.sort((a, b) => a.name.compareTo(b.name));
-      } else {
-        listplan.sort((a, b) => b.name.compareTo(a.name));
-      }
-    }
-  }
 
 }
 
-class PlanListClass {
-  String name;
-  String totalservices;
-
-  PlanListClass({this.name, this.totalservices});
-
-  static List<PlanListClass> getAvengers() {
-    return <PlanListClass>[
-      PlanListClass(name: "Below 1000L", totalservices: "1 "),
-      PlanListClass(name: "1000L - 2000L", totalservices: "5"),
-      PlanListClass(name: "Above 2000L", totalservices: "2"),
-      PlanListClass(name: "2000L -  4000L ", totalservices: "6"),
-    ];
-  }
-}
